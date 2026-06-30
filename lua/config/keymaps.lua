@@ -17,3 +17,15 @@ keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Easily save the current file using Ctrl+s
 keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
+-- Show quickfixes / code actions for the error under the cursor
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
+
+-- Open a window at the bottom showing all errors/warnings
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open Diagnostic Quickfix List" })
+
+-- Jump to the next error/warning
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+
+-- Jump to the previous error/warning
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
