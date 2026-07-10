@@ -11,7 +11,7 @@ return {
     end
 
     configs.setup({
-      ensure_installed = { "lua", "vim", "vimdoc", "python", "javascript", "typescript", "tsx", "json", "jsonc", "html", "css" },
+      ensure_installed = { "lua", "vim", "vimdoc", "python", "javascript", "typescript", "tsx", "json", "jsonc", "html", "css", "c", "cpp", "cmake" },
       highlight = {
         enable = true,
         disable = { "latex", "tex" }, 

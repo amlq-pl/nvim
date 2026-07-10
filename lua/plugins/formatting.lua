@@ -13,6 +13,8 @@ return {
         jsonc = { "prettier" },
         css = { "prettier" },
         html = { "prettier" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
         -- In the future, add: python = { "black" }, etc.
       },
       -- Uncomment this if you want it to format every time you save:

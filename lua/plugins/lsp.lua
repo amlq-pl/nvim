@@ -17,11 +17,13 @@ return {
         "texlab", -- LaTeX
         "vtsls",  -- TypeScript/JavaScript/React (wraps VS Code's TS server)
         "eslint", -- Lint diagnostics + quick fixes for JS/TS projects
+        "clangd", -- C/C++ (completion, diagnostics, navigation; reads compile_commands.json)
       },
     })
     require("mason-tool-installer").setup({
       ensure_installed = {
-        "prettier", -- Formatter for JS/TS/JSX/JSON/CSS/HTML
+        "prettier",     -- Formatter for JS/TS/JSX/JSON/CSS/HTML
+        "clang-format", -- Formatter for C/C++
       },
     })
 
@@ -101,6 +103,40 @@ return {
       },
     })
 
-    vim.lsp.enable({ "texlab", "vtsls", "eslint" })
+    -- 6. clangd: full C/C++ IDE experience for large CMake projects.
+    --    It reads compile_commands.json (generate it once per project with
+    --    `cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ...`, or symlink build/compile_commands.json
+    --    into the project root) so it knows every include path and flag.
+    vim.lsp.config("clangd", {
+      cmd = {
+        "clangd",
+        "--background-index",             -- index the whole project in the background
+        "--background-index-priority=normal",
+        "--clang-tidy",                   -- inline clang-tidy lint diagnostics
+        "--header-insertion=iwyu",        -- auto-insert #include when completing symbols
+        "--completion-style=detailed",    -- richer completion items (VS Code style)
+        "--function-arg-placeholders",    -- fill in argument placeholders on call completion
+        "--fallback-style=llvm",          -- format style when no .clang-format is present
+        "--pch-storage=memory",           -- faster reparse on big projects (uses more RAM)
+        "-j=8",                           -- parallel indexing workers
+        "--query-driver=/usr/bin/**/clang-*,/usr/bin/**/*-gcc,/usr/bin/**/*-g++",
+      },
+      -- Anchor the workspace root so a single clangd instance covers the whole project.
+      root_markers = {
+        "compile_commands.json",
+        "compile_flags.txt",
+        ".clangd",
+        ".clang-format",
+        "CMakeLists.txt",
+        ".git",
+      },
+      init_options = {
+        usePlaceholders = true,
+        completeUnimported = true,
+        clangdFileStatus = true,
+      },
+    })
+
+    vim.lsp.enable({ "texlab", "vtsls", "eslint", "clangd" })
   end,
 }
