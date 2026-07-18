@@ -23,3 +23,7 @@ opt.termguicolors = true  -- Enable 24-bit RGB colors
 opt.signcolumn = "yes"    -- Always show the sign column (prevents text shifting when errors pop up)
 opt.wrap = false          -- Don't wrap long lines automatically
 opt.mouse = "a"           -- Enable mouse support in all modes
+
+-- lang
+opt.spellang = {'eng', 'pl'}
+opt.spell = true
