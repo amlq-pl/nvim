@@ -25,5 +25,5 @@ opt.wrap = false          -- Don't wrap long lines automatically
 opt.mouse = "a"           -- Enable mouse support in all modes
 
 -- lang
-opt.spellang = {'eng', 'pl'}
+opt.spelllang = {'eng', 'pl'}
 opt.spell = true
